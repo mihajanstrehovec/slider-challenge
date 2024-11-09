@@ -12,6 +12,23 @@ body{
     align-content: center;
     position: relative;
     margin: auto;
-    width: 230px;
-    height: 230px;
+    width: 205px;
+    height: 205px;
+}
+
+#slider-dial{
+    width: 30px;
+    height: 115px;
+    position: absolute;
+    left: calc(50% - 15px); 
+    transform-origin: 15px 102px;
+    transform: rotate(90deg)
+}
+
+#dial{
+    border-radius: 50%;
+    background-color: black;
+    width: 31px;
+    height:31px;
+    margin-top: -2px;
 }
