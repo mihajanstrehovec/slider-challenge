@@ -7,23 +7,29 @@ body{
     margin: 0;
 }
 
-#slider-container{
+.slider-container{
     place-items: center;
     align-content: center;
-    position: relative;
-    margin: auto;
+    position: absolute;
 }
 
-#slider-dial{
+.slider-dial{
     width: 30px;
     position: absolute;
     left: calc(50% - 15px); 
 }
 
-#dial{
+.dial{
     border-radius: 50%;
     background-color: black;
     width: 31px;
     height:31px;
     margin-top: -2px;
+}
+
+#slider1-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
