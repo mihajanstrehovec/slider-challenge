@@ -1,5 +1,8 @@
 const radius = 90;
 const circumference = 2 * Math.PI * radius;
+const minValue = 0
+const maxValue = 1000;
+const step = 10;
 let isClicked = false;
 
 const sliderContainer = document.getElementById("slider-container");
@@ -8,6 +11,9 @@ const svgContainer = document.getElementById("svg-container");
 const sliderTrack = document.getElementById("slider-track");
 const pseudoSliderTrack = document.getElementById("slider-track-pseudo-element")
 const sliderProgress = document.getElementById("slider-progress");
+const sliderValue = document.getElementById("slider-value")
+
+sliderValue.innerHTML = minValue
 
 sliderContainer.style.width=`${radius*2+25}px`
 sliderContainer.style.height=`${radius*2+25}px`
@@ -49,7 +55,15 @@ const getAngleFromMouse = (e) => {
     return degrees;
 }
 
+const calculateValue = (progress) => {
+    const actualRange = maxValue - minValue
+    const rawValue = progress * (actualRange/100) + minValue
+    const stepValue = Math.round(rawValue/step)
+    return stepValue * step
+}
+
 const setProgress = (value) => {
+    sliderValue.innerHTML = calculateValue(value);
     const offset = circumference - (value / 100) * circumference;
     sliderProgress.style.strokeDashoffset = offset;
 }
@@ -74,7 +88,7 @@ const controlSlider = (e) => {
 };
 
 pseudoSliderTrack.addEventListener('click', (e) => {
-    const angle = getAngleFromMouse(e)
+    const angle = getAngleFromMouse(e);
     sliderDial.style.transform = `rotate(${angle}deg)`;
     const progress = (angle / 360) * 100;
     setProgress(progress);
