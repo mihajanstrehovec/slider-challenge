@@ -5,6 +5,8 @@ body{
     align-content: center;
     padding: 0;
     margin: 0;
+    background: rgb(237,237,237);
+    background: radial-gradient(circle, rgba(237,237,237,1) 0%, rgba(139,139,139,1) 100%);
 }
 
 .slider-container{
@@ -21,15 +23,32 @@ body{
 
 .dial{
     border-radius: 50%;
-    background-color: black;
+    background: rgb(237,237,237);
+    background: radial-gradient(circle, rgba(237,237,237,1) 0%, rgba(180,180,180,1) 100%);
     width: 31px;
     height:31px;
     margin-top: -2px;
+    box-shadow: 0px 0px 3px 0px #000000;
+}
+
+.expenses-container{
+    display: flex;
+    justify-content: center;
+    box-shadow: 0px 0px 12px 0px #00000040;
+    width: fit-content;
+    margin: auto;
+    padding: 20px;
+    background-color: white;
 }
 
 #slider1-container{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 800px;
+    width: 800px;
+}
+
+#slider-values{
+    align-content: center;
 }

@@ -109,8 +109,19 @@ class CircularSlider {
                 lightStop.setAttribute("stop-color", "rgba(0, 255, 0, 0.5)");
                 darkStop.setAttribute("stop-color", "rgba(0, 147, 0, 0.5)");
                 break;
+            case 'orange':
+                lightStop.setAttribute("stop-color", "rgba(255, 87, 51, 0.5)");
+                darkStop.setAttribute("stop-color", "rgba(175, 62, 38, 0.5)");
+                break;
+            case 'yellow':
+                lightStop.setAttribute("stop-color", "rgba(255, 243, 52, 0.5)");
+                darkStop.setAttribute("stop-color", "rgba(219, 208, 45, 0.5)");
+                break;
+            case 'cyan':
+                lightStop.setAttribute("stop-color", "rgba(46, 246, 255, 0.5)");
+                darkStop.setAttribute("stop-color", "rgba(45, 211, 219, 0.5)");
+                break;
             case 'blue':
-            default:
                 lightStop.setAttribute("stop-color", "rgba(0, 0, 255, 0.5)");
                 darkStop.setAttribute("stop-color", "rgba(0, 0, 147, 0.5)");
                 break;
@@ -128,7 +139,46 @@ class CircularSlider {
     }
 
     addEventListeners() {
-        this.dial.addEventListener("mousedown", () => (this.isClicked = true));
+        document.addEventListener("mousedown", (e) => {
+            const dialRect = this.dial.getBoundingClientRect();
+
+            // getting the center of the dial
+            const dialCenterX = dialRect.left + dialRect.width / 2;
+            const dialCenterY = dialRect.top + dialRect.height / 2;
+
+            // storing mouse position
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            // calculating the distance between mouse and dial
+            const distance = Math.sqrt(Math.pow(mouseX - dialCenterX, 2) + Math.pow(mouseY - dialCenterY, 2));
+
+            if (distance <= 15) {
+                this.isClicked = true;
+            }
+
+            // get pseudo track position
+            const trackRect = this.pseudoSliderTrack.getBoundingClientRect();
+            const trackCenterX = trackRect.left + trackRect.width / 2;
+            const trackCenterY = trackRect.top + trackRect.height / 2;
+
+            // calculating the stroke size
+            const trackRadius = this.pseudoSliderTrack.getAttribute("r");
+            const strokeWidth = this.pseudoSliderTrack.getAttribute("stroke-width");
+            const outerRadius = parseFloat(trackRadius) + parseFloat(strokeWidth) / 2;
+            const innerRadius = parseFloat(trackRadius) - parseFloat(strokeWidth) / 2;
+
+            // calculating the distance between mouse and track circle
+            const distanceToCenter = Math.sqrt(
+                Math.pow(mouseX - trackCenterX, 2) + Math.pow(mouseY - trackCenterY, 2)
+            );
+
+            // checking if the mouse is within the stroke
+            if (distanceToCenter >= innerRadius && distanceToCenter <= outerRadius) {
+                this.moveToAngle(e)
+            }
+        });
+        
         document.addEventListener("mouseup", () => (this.isClicked = false));
         document.addEventListener("mousemove", (e) => this.controlSlider(e));
 
