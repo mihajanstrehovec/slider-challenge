@@ -1,11 +1,12 @@
-const radius = 90;
+const radius = 180;
 const circumference = 2 * Math.PI * radius;
-const minValue = 350
+const minValue = 200
 const maxValue = 2350;
 const step = 10;
 const minAngle = (minValue/maxValue)*360;
 const minProgress = (minAngle / 360) * 100;
 let isClicked = false;
+const color = 'blue'
 
 const sliderContainer = document.getElementById("slider-container");
 const sliderDial = document.getElementById("slider-dial");
@@ -14,6 +15,8 @@ const sliderTrack = document.getElementById("slider-track");
 const pseudoSliderTrack = document.getElementById("slider-track-pseudo-element")
 const sliderProgress = document.getElementById("slider-progress");
 const sliderValue = document.getElementById("slider-value")
+const lightGradient = document.getElementById("light-gradient")
+const darkGradient = document.getElementById("dark-gradient")
 
 sliderValue.innerHTML = minValue
 sliderDial.style.transform = `rotate(${minAngle}deg)`;
@@ -42,6 +45,24 @@ sliderProgress.setAttribute('cy', radius+12.5)
 sliderProgress.style.transformOrigin=`${radius+12.5}px ${radius+12.5}px`
 sliderProgress.style.strokeDasharray = circumference;
 sliderProgress.style.strokeDashoffset = test;
+
+switch(color){
+    case 'red':
+        lightGradient.setAttribute("stop-color", "rgba(255, 0, 0, 0.5)")
+        darkGradient.setAttribute("stop-color", "rgba(147, 0, 0, 0.5)")
+        break;
+    case 'green':
+        lightGradient.setAttribute("stop-color", "rgba(0, 255, 0, 0.5)")
+        darkGradient.setAttribute("stop-color", "rgba(0, 147, 0, 0.5)")
+        break;
+    case 'blue':
+        lightGradient.setAttribute("stop-color", "rgba(0, 0, 255, 0.5)")
+        darkGradient.setAttribute("stop-color", "rgba(0, 0, 147, 0.5)")
+        break;
+
+}
+
+
 
 const getAngleFromMouse = (e) => {
     const rect = svgContainer.getBoundingClientRect();
@@ -97,6 +118,9 @@ pseudoSliderTrack.addEventListener('click', (e) => {
     if(angle > minAngle){
         sliderDial.style.transform = `rotate(${angle}deg)`;
         setProgress(angle);
+    } else {
+        sliderDial.style.transform = `rotate(${minAngle}deg)`;
+        setProgress(minAngle);
     }
 })
 
