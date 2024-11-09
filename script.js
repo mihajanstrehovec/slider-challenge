@@ -1,4 +1,4 @@
-const radius = 120;
+const radius = 90;
 const circumference = 2 * Math.PI * radius;
 let isClicked = false;
 
@@ -6,8 +6,8 @@ const sliderContainer = document.getElementById("slider-container");
 const sliderDial = document.getElementById("slider-dial");
 const svgContainer = document.getElementById("svg-container");
 const sliderTrack = document.getElementById("slider-track");
+const pseudoSliderTrack = document.getElementById("slider-track-pseudo-element")
 const sliderProgress = document.getElementById("slider-progress");
-
 
 sliderContainer.style.width=`${radius*2+25}px`
 sliderContainer.style.height=`${radius*2+25}px`
@@ -17,6 +17,10 @@ sliderDial.style.transformOrigin = `15px ${radius + 12.5}px`
 
 svgContainer.style.width=`${radius*2+25}px`
 svgContainer.style.height=`${radius*2+25}px`
+
+pseudoSliderTrack.setAttribute('r', radius);
+pseudoSliderTrack.setAttribute('cx', radius+12.5)
+pseudoSliderTrack.setAttribute('cy', radius+12.5)
 
 sliderTrack.setAttribute('r', radius);
 sliderTrack.setAttribute('cx', radius+12.5)
@@ -68,5 +72,12 @@ const controlSlider = (e) => {
         setProgress(progress);
     }
 };
+
+pseudoSliderTrack.addEventListener('click', (e) => {
+    const angle = getAngleFromMouse(e)
+    sliderDial.style.transform = `rotate(${angle}deg)`;
+    const progress = (angle / 360) * 100;
+    setProgress(progress);
+})
 
 document.addEventListener('mousemove', controlSlider)
