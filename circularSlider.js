@@ -180,7 +180,6 @@ class CircularSlider {
 
         document.addEventListener("touchmove", (e) => {
             if (this.isClicked) {
-                e.preventDefault()
                 const touch = e.touches[0];
                 this.controlSlider(touch);
             }
