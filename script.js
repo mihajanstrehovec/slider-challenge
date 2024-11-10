@@ -62,8 +62,6 @@ switch(color){
 
 }
 
-
-
 const getAngleFromMouse = (e) => {
     const rect = svgContainer.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;

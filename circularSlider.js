@@ -62,21 +62,14 @@ class CircularSlider {
 
         // track circle
         this.sliderTrack = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        this.sliderTrack.setAttribute("r", this.radius);
-        this.sliderTrack.setAttribute("cx", this.radius + 12.5);
-        this.sliderTrack.setAttribute("cy", this.radius + 12.5);
-        this.sliderTrack.setAttribute("fill", "none");
-        this.sliderTrack.setAttribute("stroke", "#cfcfcf");
-        this.sliderTrack.setAttribute("stroke-width", "25");
-        this.sliderTrack.setAttribute("stroke-dasharray", "10,2");
+        this.setCircleSize(this.sliderTrack)
+        this.setCircleStroke(this.sliderTrack)
         this.svgContainer.appendChild(this.sliderTrack);
 
         // progress circle
         this.sliderProgress = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        this.sliderProgress.setAttribute("r", this.radius);
-        this.sliderProgress.setAttribute("cx", this.radius + 12.5);
-        this.sliderProgress.setAttribute("cy", this.radius + 12.5);
-        this.sliderProgress.setAttribute("fill", "none");
+        this.setCircleSize(this.sliderProgress)
+        // HEREE
         this.sliderProgress.setAttribute("stroke", `url(#${this.color}-gradient)`);
         this.sliderProgress.setAttribute("stroke-width", "25");
         this.sliderProgress.setAttribute("stroke-dasharray", this.circumference);
@@ -87,12 +80,8 @@ class CircularSlider {
 
         // pseudo track for detecting clicks
         this.pseudoSliderTrack = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        this.pseudoSliderTrack.setAttribute("r", this.radius);
-        this.pseudoSliderTrack.setAttribute("cx", this.radius + 12.5);
-        this.pseudoSliderTrack.setAttribute("cy", this.radius + 12.5);
-        this.pseudoSliderTrack.setAttribute("fill", "none");
-        this.pseudoSliderTrack.setAttribute("stroke", "transparent");
-        this.pseudoSliderTrack.setAttribute("stroke-width", "25");
+        this.setCircleSize(this.pseudoSliderTrack)
+        this.setCircleStroke(this.pseudoSliderTrack, "transparent", "25")
         this.svgContainer.appendChild(this.pseudoSliderTrack);
 
         // gradient
@@ -103,7 +92,6 @@ class CircularSlider {
         gradient.setAttribute("y1", "50%");
         gradient.setAttribute("x2", "50%");
         gradient.setAttribute("y2", "0%");
-
         const lightStop = document.createElementNS("http://www.w3.org/2000/svg", "stop");
         lightStop.setAttribute("offset", "0%");
         const darkStop = document.createElementNS("http://www.w3.org/2000/svg", "stop");
@@ -178,8 +166,12 @@ class CircularSlider {
             }
         });
 
-        document.addEventListener("mouseup", () => (this.isClicked = false));
-        document.addEventListener("mousemove", (e) => this.controlSlider(e));
+        document.addEventListener("mouseup", () => {
+            this.isClicked = false
+        });
+        document.addEventListener("mousemove", (e) => {
+            this.controlSlider(e)
+        });
     
         document.addEventListener("touchstart", (e) => {
             const touch = e.touches[0];
@@ -265,5 +257,18 @@ class CircularSlider {
         if (distance <= 15) {
             this.isClicked = true;
         }
+    }
+
+    setCircleSize(element){
+        element.setAttribute("r", this.radius);
+        element.setAttribute("cx", this.radius + 12.5);
+        element.setAttribute("cy", this.radius + 12.5);
+        element.setAttribute("fill", "none");
+    }
+
+    setCircleStroke(element, color="#cfcfcf", width="25", dashArray="10,2"){
+        element.setAttribute("stroke", color);
+        element.setAttribute("stroke-width", width);
+        element.setAttribute("stroke-dasharray", dashArray);
     }
 }
