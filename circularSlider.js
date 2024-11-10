@@ -6,7 +6,8 @@ class CircularSlider {
             step = 1,
             radius = 90,
             color = 'blue',
-            container = document.body
+            container = document.body,
+            name = ''
         } = options;
 
         this.minValue = minValue;
@@ -15,6 +16,7 @@ class CircularSlider {
         this.radius = radius;
         this.color = color;
         this.container = container;
+        this.name = name
         this.isClicked = false;
         this.minAngle = (minValue/maxValue)*360;
 
@@ -31,10 +33,17 @@ class CircularSlider {
         this.sliderContainer.style.height=`${this.radius*2+25}px`
 
         // displaying the value of range selector
-        this.sliderValueDisplay = document.createElement("h3");
+        this.sliderValueContainer = document.createElement('div');
+        this.sliderValueContainer.classList.add("slider-value-container");
+        document.getElementById('slider-values').appendChild(this.sliderValueContainer);
+        this.sliderValueDisplay = document.createElement("h1");
         this.sliderValueDisplay.classList.add("slider-value");
-        this.sliderValueDisplay.innerText = this.minValue;
-        document.getElementById('slider-values').appendChild(this.sliderValueDisplay);
+        this.sliderValueDisplay.innerText = `asdasds ${this.minValue}`;
+        this.sliderValueContainer.appendChild(this.sliderValueDisplay);
+        this.sliderValueDisplayName = document.createElement("p");
+        this.sliderValueDisplayName.classList.add("slider-value-name");
+        this.sliderValueDisplayName.innerText = this.name;
+        this.sliderValueContainer.appendChild(this.sliderValueDisplayName);
 
         // container for dial
         this.sliderDial = document.createElement("div");
@@ -140,22 +149,12 @@ class CircularSlider {
 
     addEventListeners() {
         document.addEventListener("mousedown", (e) => {
-            const dialRect = this.dial.getBoundingClientRect();
-
-            // getting the center of the dial
-            const dialCenterX = dialRect.left + dialRect.width / 2;
-            const dialCenterY = dialRect.top + dialRect.height / 2;
 
             // storing mouse position
             const mouseX = e.clientX;
             const mouseY = e.clientY;
 
-            // calculating the distance between mouse and dial
-            const distance = Math.sqrt(Math.pow(mouseX - dialCenterX, 2) + Math.pow(mouseY - dialCenterY, 2));
-
-            if (distance <= 15) {
-                this.isClicked = true;
-            }
+            this.checkIfDialIsClosest(mouseX, mouseY);
 
             // get pseudo track position
             const trackRect = this.pseudoSliderTrack.getBoundingClientRect();
@@ -178,9 +177,26 @@ class CircularSlider {
                 this.moveToAngle(e)
             }
         });
-        
+
         document.addEventListener("mouseup", () => (this.isClicked = false));
         document.addEventListener("mousemove", (e) => this.controlSlider(e));
+    
+        document.addEventListener("touchstart", (e) => {
+            const touch = e.touches[0];
+            this.checkIfDialIsClosest(touch.clientX, touch.clientY)
+        });
+
+        document.addEventListener("touchmove", (e) => {
+            if (this.isClicked) {
+                e.preventDefault()
+                const touch = e.touches[0];
+                this.controlSlider(touch);
+            }
+        });
+
+        document.addEventListener("touchend", () => {
+            this.isClicked = false;
+        });
 
         this.pseudoSliderTrack.addEventListener("click", (e) => this.moveToAngle(e));
     }
@@ -206,7 +222,7 @@ class CircularSlider {
         const progress = (angle / 360) * 100;
         const offset = this.circumference - (progress / 100) * this.circumference;
         this.sliderProgress.style.strokeDashoffset = offset;
-        this.sliderValueDisplay.innerText = this.calculateValue(angle);
+        this.sliderValueDisplay.innerText = `$${this.calculateValue(angle)}`;
     }
 
     controlSlider(e) {
@@ -234,5 +250,20 @@ class CircularSlider {
         const angle = (value / this.maxValue) * 360;
         this.sliderDial.style.transform = `rotate(${angle}deg)`;
         this.setProgress(angle);
+    }
+
+    checkIfDialIsClosest(x, y){
+        const dialRect = this.dial.getBoundingClientRect();
+
+        // getting the center of the dial
+        const dialCenterX = dialRect.left + dialRect.width / 2;
+        const dialCenterY = dialRect.top + dialRect.height / 2;
+
+        // calculating the distance between mouse and dial
+        const distance = Math.sqrt(Math.pow(x - dialCenterX, 2) + Math.pow(y - dialCenterY, 2));
+
+        if (distance <= 15) {
+            this.isClicked = true;
+        }
     }
 }

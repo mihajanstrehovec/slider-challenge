@@ -11,56 +11,61 @@
 
     <div class="expenses-container">
         <div id="slider-values"></div>
-        <div id="slider1-container"></div>
+        <div id="main-slider-container"></div>
         
     </div>
 
     <script src="circularSlider.js"></script>
     <script>
-        
+
         const slider1 = new CircularSlider({
-          minValue: 200,
-          maxValue: 2350,
-          step: 10,
+          minValue: 1000,
+          maxValue: 10000,
+          step: 100,
           radius: 240,
           color: 'blue',
-          container: document.getElementById('slider1-container')
+          container: document.getElementById('main-slider-container'),
+          name: 'Transportation'
         });
 
         const slider2 = new CircularSlider({
           minValue: 200,
-          maxValue: 2350,
-          step: 10,
+          maxValue: 5000,
+          step: 50,
           radius: 200,
           color: 'red',
-          container: document.getElementById('slider1-container')
+          container: document.getElementById('main-slider-container'),
+          name: 'Food'
         });
 
         const slider3 = new CircularSlider({
           minValue: 200,
-          maxValue: 2350,
-          step: 10,
+          maxValue: 4500,
+          step: 25,
           radius: 160,
           color: 'green',
-          container: document.getElementById('slider1-container')
+          container: document.getElementById('main-slider-container'),
+          name: 'Insurance'
         });
 
         const slider4 = new CircularSlider({
-          minValue: 200,
-          maxValue: 2350,
+          minValue: 150,
+          maxValue: 3300,
           step: 10,
           radius: 120,
           color: 'cyan',
-          container: document.getElementById('slider1-container')
+          container: document.getElementById('main-slider-container'),
+          name: 'Entartainment'
         });
 
         const slider5 = new CircularSlider({
-          minValue: 200,
-          maxValue: 2350,
-          step: 10,
+          minValue: 0,
+          maxValue: 250,
+          step: 1,
           radius: 80,
           color: 'orange',
-          container: document.getElementById('slider1-container')
+          container: document.getElementById('main-slider-container'),
+          name: 'Health care'
         });
 
     </script>
