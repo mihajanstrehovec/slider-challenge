@@ -132,6 +132,19 @@ class CircularSlider {
         this.sliderContainer.appendChild(this.svgContainer);
         container.appendChild(this.sliderContainer);
 
+        const screenWidth = window.screen.width;
+        const sliderContainers = document.querySelectorAll('.slider-container')
+        let maxSliderWidth = 0;
+        sliderContainers.forEach((slider)=>{
+            maxSliderWidth = slider.offsetWidth > maxSliderWidth ? slider.offsetWidth : maxSliderWidth
+        })
+        if (screenWidth < maxSliderWidth){
+            const transformScale = (screenWidth-40)/maxSliderWidth
+            console.log(transformScale)
+            this.sliderContainer.style.transform = `scale(${transformScale})`
+        }
+        
+
         this.addEventListeners();
     }
 
