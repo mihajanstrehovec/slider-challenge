@@ -16,25 +16,30 @@
 
     <script src="circularSlider.js"></script>
     <script>
-
         const transportationSlider = new CircularSlider({
           minValue: 1000,
           maxValue: 10000,
           step: 100,
           radius: 240,
-          color: 'blue',
-          container: document.getElementById('main-slider-container'),
-          name: 'Transportation'
+          color: "blue",
+          container: "main-slider-container",
+          valuesContainer: "slider-values",
+          name: "Transportation"
         });
+        
+        // transportationSlider.sliderContainer.addEventListener("valueChange", (e) => {
+        //   console.log(`${e.detail.name} value is ${e.detail.value}`);
+        // });
 
         const foodSlider = new CircularSlider({
           minValue: 200,
           maxValue: 5000,
           step: 50,
           radius: 200,
-          color: 'red',
-          container: document.getElementById('main-slider-container'),
-          name: 'Food'
+          color: "red",
+          container: "main-slider-container",
+          valuesContainer: "slider-values",
+          name: "Food"
         });
 
         const insuranceSlider = new CircularSlider({
@@ -42,9 +47,10 @@
           maxValue: 4500,
           step: 25,
           radius: 160,
-          color: 'green',
-          container: document.getElementById('main-slider-container'),
-          name: 'Insurance'
+          color: "green",
+          container: "main-slider-container",
+          valuesContainer: "slider-values",
+          name: "Insurance"
         });
 
         const entartainmentSldier = new CircularSlider({
@@ -52,9 +58,10 @@
           maxValue: 3300,
           step: 10,
           radius: 120,
-          color: 'cyan',
-          container: document.getElementById('main-slider-container'),
-          name: 'Entartainment'
+          color: "cyan",
+          container: "main-slider-container",
+          valuesContainer: "slider-values",
+          name: "Entartainment"
         });
 
         const healthCareSlider = new CircularSlider({
@@ -62,11 +69,11 @@
           maxValue: 250,
           step: 1,
           radius: 80,
-          color: 'orange',
-          container: document.getElementById('main-slider-container'),
-          name: 'Health care'
+          color: "orange",
+          container: "main-slider-container",
+          valuesContainer: "slider-values",
+          name: "Health care"
         });
-
     </script>
   </body>
 </html>

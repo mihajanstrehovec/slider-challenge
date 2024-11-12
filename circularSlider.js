@@ -5,9 +5,10 @@ class CircularSlider {
             maxValue = 100,
             step = 1,
             radius = 90,
-            color = 'blue',
+            color = "blue",
             container = document.body,
-            name = ''
+            valuesContainer = document.body,
+            name = ""
         } = options;
 
         this.minValue = minValue;
@@ -16,26 +17,27 @@ class CircularSlider {
         this.radius = radius;
         this.color = color;
         this.container = container;
-        this.name = name
+        this.valuesContainer = valuesContainer;
+        this.name = name;
         this.isClicked = false;
         this.minAngle = (minValue/maxValue)*360;
 
         this.circumference = 2 * Math.PI * this.radius;
         this.createSliderElements(container);
-        this.setSliderValue(this.minValue)
+        this.setSliderValue(this.minValue);
     }
 
-    createSliderElements(container) {
+    createSliderElements() {
         // container for whole slider
         this.sliderContainer = document.createElement("div");
         this.sliderContainer.classList.add("slider-container");
-        this.sliderContainer.style.width=`${this.radius*2+25}px`
-        this.sliderContainer.style.height=`${this.radius*2+25}px`
+        this.sliderContainer.style.width=`${this.radius*2+25}px`;
+        this.sliderContainer.style.height=`${this.radius*2+25}px`;
 
         // displaying the value of range selector
-        this.sliderValueContainer = document.createElement('div');
+        this.sliderValueContainer = document.createElement("div");
         this.sliderValueContainer.classList.add("slider-value-container");
-        document.getElementById('slider-values').appendChild(this.sliderValueContainer);
+        document.getElementById(this.valuesContainer).appendChild(this.sliderValueContainer);
         this.sliderValueDisplay = document.createElement("h1");
         this.sliderValueDisplay.classList.add("slider-value");
         this.sliderValueDisplay.innerText = `asdasds ${this.minValue}`;
@@ -62,26 +64,25 @@ class CircularSlider {
 
         // track circle
         this.sliderTrack = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        this.setCircleSize(this.sliderTrack)
-        this.setCircleStroke(this.sliderTrack)
+        this.setCircleSize(this.sliderTrack);
+        this.setCircleStroke(this.sliderTrack);
         this.svgContainer.appendChild(this.sliderTrack);
 
         // progress circle
         this.sliderProgress = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        this.setCircleSize(this.sliderProgress)
-        // HEREE
+        this.setCircleSize(this.sliderProgress);
         this.sliderProgress.setAttribute("stroke", `url(#${this.color}-gradient)`);
         this.sliderProgress.setAttribute("stroke-width", "25");
         this.sliderProgress.setAttribute("stroke-dasharray", this.circumference);
         this.sliderProgress.setAttribute("stroke-dashoffset", this.circumference);
         this.sliderProgress.setAttribute("transform", "rotate(-90)");
-        this.sliderProgress.style.transformOrigin=`${this.radius+12.5}px ${this.radius+12.5}px`
+        this.sliderProgress.style.transformOrigin=`${this.radius+12.5}px ${this.radius+12.5}px`;
         this.svgContainer.appendChild(this.sliderProgress);
 
         // pseudo track for detecting clicks
         this.pseudoSliderTrack = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        this.setCircleSize(this.pseudoSliderTrack)
-        this.setCircleStroke(this.pseudoSliderTrack, "transparent", "25")
+        this.setCircleSize(this.pseudoSliderTrack);
+        this.setCircleStroke(this.pseudoSliderTrack, "transparent", "25");
         this.svgContainer.appendChild(this.pseudoSliderTrack);
 
         // gradient
@@ -98,27 +99,27 @@ class CircularSlider {
         darkStop.setAttribute("offset", "80%");
 
         switch (this.color) {
-            case 'red':
+            case "red":
                 lightStop.setAttribute("stop-color", "rgba(255, 0, 0, 0.5)");
                 darkStop.setAttribute("stop-color", "rgba(147, 0, 0, 0.5)");
                 break;
-            case 'green':
+            case "green":
                 lightStop.setAttribute("stop-color", "rgba(0, 255, 0, 0.5)");
                 darkStop.setAttribute("stop-color", "rgba(0, 147, 0, 0.5)");
                 break;
-            case 'orange':
+            case "orange":
                 lightStop.setAttribute("stop-color", "rgba(255, 87, 51, 0.5)");
                 darkStop.setAttribute("stop-color", "rgba(175, 62, 38, 0.5)");
                 break;
-            case 'yellow':
+            case "yellow":
                 lightStop.setAttribute("stop-color", "rgba(255, 243, 52, 0.5)");
                 darkStop.setAttribute("stop-color", "rgba(219, 208, 45, 0.5)");
                 break;
-            case 'cyan':
+            case "cyan":
                 lightStop.setAttribute("stop-color", "rgba(46, 246, 255, 0.5)");
                 darkStop.setAttribute("stop-color", "rgba(45, 211, 219, 0.5)");
                 break;
-            case 'blue':
+            case "blue":
                 lightStop.setAttribute("stop-color", "rgba(0, 0, 255, 0.5)");
                 darkStop.setAttribute("stop-color", "rgba(0, 0, 147, 0.5)");
                 break;
@@ -130,21 +131,9 @@ class CircularSlider {
         this.svgContainer.appendChild(defs);
 
         this.sliderContainer.appendChild(this.svgContainer);
-        container.appendChild(this.sliderContainer);
+        document.getElementById(this.container).appendChild(this.sliderContainer);
 
-        const screenWidth = window.screen.width;
-        const sliderContainers = document.querySelectorAll('.slider-container')
-        let maxSliderWidth = 0;
-        sliderContainers.forEach((slider)=>{
-            maxSliderWidth = slider.offsetWidth > maxSliderWidth ? slider.offsetWidth : maxSliderWidth
-        })
-        if (screenWidth < maxSliderWidth){
-            const transformScale = (screenWidth-40)/maxSliderWidth
-            console.log(transformScale)
-            this.sliderContainer.style.transform = `scale(${transformScale})`
-        }
-        
-
+        this.scaleDownSliderOnMobile()
         this.addEventListeners();
     }
 
@@ -175,20 +164,20 @@ class CircularSlider {
 
             // checking if the mouse is within the stroke
             if (distanceToCenter >= innerRadius && distanceToCenter <= outerRadius) {
-                this.moveToAngle(e)
+                this.moveToAngle(e);
             }
         });
 
         document.addEventListener("mouseup", () => {
-            this.isClicked = false
+            this.isClicked = false;
         });
         document.addEventListener("mousemove", (e) => {
-            this.controlSlider(e)
+            this.controlSlider(e);
         });
     
         document.addEventListener("touchstart", (e) => {
             const touch = e.touches[0];
-            this.checkIfDialIsClosest(touch.clientX, touch.clientY)
+            this.checkIfDialIsClosest(touch.clientX, touch.clientY);
         });
 
         document.addEventListener("touchmove", (e) => {
@@ -203,6 +192,20 @@ class CircularSlider {
         });
 
         this.pseudoSliderTrack.addEventListener("click", (e) => this.moveToAngle(e));
+
+        window.addEventListener("resize", () => {
+            this.scaleDownSliderOnMobile();
+        });
+    }
+
+    removeEventListeners() {
+        document.removeEventListener("mousedown", this.onMouseDown);
+        document.removeEventListener("mouseup", this.onMouseUp);
+        document.removeEventListener("mousemove", this.onMouseMove);
+        document.removeEventListener("touchstart", this.onTouchStart);
+        document.removeEventListener("touchmove", this.onTouchMove);
+        document.removeEventListener("touchend", this.onTouchEnd);
+        this.pseudoSliderTrack.removeEventListener("click", this.moveToAngle.bind(this));
     }
 
     getAngleFromMouse(e) {
@@ -217,6 +220,16 @@ class CircularSlider {
         return degrees < 0 ? degrees + 360 : degrees;
     }
 
+    dispatchValueChangeEvent(value) {
+        const event = new CustomEvent("valueChange", {
+            detail: {
+                name: this.name,
+                value: value,
+            }
+        });
+        this.sliderContainer.dispatchEvent(event);
+    }    
+
     calculateValue(angle) {
         const value = (angle * this.maxValue) / 360;
         return Math.round(value / this.step) * this.step;
@@ -226,7 +239,9 @@ class CircularSlider {
         const progress = (angle / 360) * 100;
         const offset = this.circumference - (progress / 100) * this.circumference;
         this.sliderProgress.style.strokeDashoffset = offset;
-        this.sliderValueDisplay.innerText = `$${this.calculateValue(angle)}`;
+        const calculatedValue = this.calculateValue(angle);
+        this.sliderValueDisplay.innerText = `$${calculatedValue}`;
+        this.dispatchValueChangeEvent(calculatedValue);
     }
 
     controlSlider(e) {
@@ -282,5 +297,18 @@ class CircularSlider {
         element.setAttribute("stroke", color);
         element.setAttribute("stroke-width", width);
         element.setAttribute("stroke-dasharray", dashArray);
+    }
+
+    scaleDownSliderOnMobile(){
+        const screenWidth = window.screen.width;
+        const sliderContainers = document.querySelectorAll(".slider-container");
+        let maxSliderWidth = 0;
+        sliderContainers.forEach((slider)=>{
+            maxSliderWidth = slider.offsetWidth > maxSliderWidth ? slider.offsetWidth : maxSliderWidth;
+        })
+        if (screenWidth < maxSliderWidth){
+            const transformScale = (screenWidth-40)/maxSliderWidth;
+            document.getElementById(this.container).style.transform = `scale(${transformScale})`;
+        }
     }
 }
