@@ -4,13 +4,8 @@
 - [Overview](#overview)
 - [Features](#features)
 - [Technical Approach](#technical-approach)
+- [Improvements](#Improvements)
 - [Installation and Setup](#installation-and-setup)
-- [Usage](#usage)
-- [Responsive and Mobile Optimization](#responsive-and-mobile-optimization)
-- [Event Handling and Customization](#event-handling-and-customization)
-- [Challenges and Solutions](#challenges-and-solutions)
-- [Future Improvements](#future-improvements)
-- [Credits](#credits)
 
 ---
 
